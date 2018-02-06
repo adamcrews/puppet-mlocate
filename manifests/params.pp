@@ -21,20 +21,29 @@ class mlocate::params {
     $cron_daily_path = '/etc/cron.daily/mlocate.cron'
   }
 
-  $prunefs = [
-    '9p', 'afs', 'anon_inodefs', 'auto', 'autofs', 'bdev', 'binfmt_misc',
-    'cgroup', 'cifs', 'coda', 'configfs', 'cpuset', 'debugfs', 'devpts',
-    'ecryptfs', 'exofs', 'fuse', 'fusectl', 'fuse.glusterfs', 'gfs', 'gfs2',
-    'hugetlbfs', 'inotifyfs', 'iso9660', 'jffs2', 'lustre', 'mqueue', 'ncpfs',
-    'nfs', 'nfs4', 'nfsd', 'pipefs', 'proc', 'ramfs', 'rootfs', 'rpc_pipefs',
-    'securityfs', 'selinuxfs', 'sfs', 'sockfs', 'sysfs', 'tmpfs', 'ubifs',
-    'udf', 'usbfs',
-  ]
+  $prunefs = $::osfamily ? {
+    'RedHat' => ['9p', 'afs', 'anon_inodefs', 'auto', 'autofs', 'bdev',
+                  'binfmt_misc', 'cgroup', 'cifs', 'coda', 'configfs', 'cpuset',
+                  'debugfs', 'devpts', 'ecryptfs', 'exofs', 'fuse', 'fusectl',
+                  'fuse.glusterfs', 'gfs', 'gfs2', 'hugetlbfs', 'inotifyfs',
+                  'iso9660', 'jffs2', 'lustre', 'mqueue', 'ncpfs', 'nfs',
+                  'nfs4', 'nfsd', 'pipefs', 'proc', 'ramfs', 'rootfs',
+                  'rpc_pipefs', 'securityfs', 'selinuxfs', 'sfs', 'sockfs',
+                  'sysfs', 'tmpfs', 'ubifs', 'udf', 'usbfs'],
+    'Debian' => ['NFS', 'nfs', 'nfs4', 'rpc_pipefs', 'afs', 'binfmt_misc',
+                  'proc', 'smbfs', 'autofs', 'iso9660', 'ncpfs', 'coda',
+                  'devpts', 'ftpfs', 'devfs', 'mfs', 'shfs', 'sysfs', 'cifs',
+                  'lustre', 'tmpfs', 'usbfs', 'udf', 'fuse.glusterfs',
+                  'fuse.sshfs', 'curlftpfs', 'ecryptfs', 'fusesmb', 'devtmpfs'],
+  }
 
-  $prunepaths = [
-    '/afs', '/media', '/net', '/sfs', '/tmp', '/udev', '/var/cache/ccache',
-    '/var/spool/cups', '/var/spool/squid', '/var/tmp',
-  ]
+  $prunepaths = $::osfamily ? {
+    'RedHat' => ['/afs', '/media', '/net', '/sfs', '/tmp', '/udev',
+                  '/var/cache/ccache', '/var/spool/cups', '/var/spool/squid',
+                  '/var/tmp'],
+    'Debian' => ['/tmp /var/spool', '/media', '/home/.ecryptfs',
+                  '/var/lib/schroot'],
+  }
 
   $_cron_min  = fqdn_rand(60, "${module_name}-min")
   $_cron_hour = fqdn_rand(24, "${module_name}-hour")
