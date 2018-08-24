@@ -76,73 +76,73 @@ class { '::mlocate':
 * mlocate::install: install and configure the software.
 * mlocate::cron: setup the cron job.
 
-###Parameters
+### Parameters
 
 The following parameters are available as options to the default mlocate class.
 
-####`package_name`
+#### `package_name`
 
 The name of the package to install. Default: mlocate
 
-####`package_ensure`
+#### `package_ensure`
 
 Ensure the package is present, latest, or absent. Default: present
 
-####`update_command`
+#### `update_command`
 
 The name of the updatedb wrapper script. Default: /usr/local/bin/mlocate.cron
 
-####`update_on_install`
+#### `update_on_install`
 
 Run an initial update when the package is installed. Default: true
 
-####`conf_file`
+#### `conf_file`
 
 The configuration file for updatedb. Default: /etc/updatedb.conf
 
-####`cron_ensure`
+#### `cron_ensure`
 
 Ensure the cron jobs is present or absent. Default: present
 
-####`cron_schedule`
+#### `cron_schedule`
 
 The standard cron time schedule. Default: once a week based on fqdn_rand
 
-####`cron_daily_path`
+#### `cron_daily_path`
 
 The path to cron.daily file installed by mlocate and that is removed
 
-####`prune_bind_mounts`
+#### `prune_bind_mounts`
 
 Prune out bind mounts or not. Default: yes
 Refer to the updatedb.conf man page for more detail.
 On redhat 5 systems defaults to none.
 
-####`prunenames`
+#### `prunenames`
 
 Prune out directories matching this pattern. Default: .git .hg .svn
 Refer to the updatedb.conf man page for more detail.
 On redhat 5 systems defaults to none.
 
-####`extra_prunenames`
+#### `extra_prunenames`
 
 Prune out additional directories matching this pattern. Default: none
 
-####`prunefs`
+#### `prunefs`
 
 Prune out these FS types. Default: refer to the params.pp
 Refer to the updatedb.conf man page for more detail.
 
-####`extra_prunefs`
+#### `extra_prunefs`
 
 Prune out additional directories matching this pattern. Default: none
 
-####`prunepaths`
+#### `prunepaths`
 
 Prune out paths matching this pattern. Default: refer to params.pp
 Refer to the updatedb.conf man page for more detail.
 
-####`extra_prunepaths`
+#### `extra_prunepaths`
 
 Prune out additional directories matching this pattern. Default: none
 
