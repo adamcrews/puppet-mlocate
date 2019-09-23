@@ -1,0 +1,3 @@
+---
+mlocate::cron_daily_path: '/etc/cron.daily/mlocate'
+mlocate::cron_method: 'cron'
