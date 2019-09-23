@@ -40,6 +40,13 @@
 #   The path to cron.daily file installed by mlocate and that is removed.
 #   Default: '/etc/cron.daily/mlocate.cron' or '/etc/cron.daily/mlocate' (depending on OS version)
 #
+# [*cron_method*]
+#   Set to 'cron' or 'timer'. 'timer' is the default on RHEL8 and will configure
+#   a systemd timer that comes with the package rather than a cron.
+#
+# [*timer_schedule*]
+# By defalt weekly, format of systemd's `OnCalander` parameter.
+#
 # [*prune_bind_mounts*]
 #   Prune out bind mounts or not.
 #   Optional value
@@ -104,7 +111,8 @@ class mlocate(
   Stdlib::Absolutepath $conf_file                     = lookup('mlocate::conf_file'),
   Enum['present', 'absent'] $cron_ensure              = lookup('mlocate::cron_ensure'),
   String $cron_schedule                               = join([fqdn_rand(60, 'min'), fqdn_rand(24, 'hour'), '*', '*', fqdn_rand(7, 'day')], ' '), # lint:ignore:140chars
-  Stdlib::Absolutepath $cron_daily_path               = lookup('mlocate::cron_daily_path'),
+  String $timer_schedule                              = 'weekly',
+  Optional[Stdlib::Absolutepath] $cron_daily_path     = lookup('mlocate::cron_daily_path'),
   Optional[Enum['yes']] $prune_bind_mounts            = lookup('mlocate::prune_bind_mounts'),
   Optional[Array] $prunenames                         = lookup('mlocate::prunenames'),
   Array $extra_prunenames                             = [],
@@ -112,6 +120,7 @@ class mlocate(
   Array $extra_prunefs                                = [],
   Array $prunepaths                                   = lookup('mlocate::prunepaths'),
   Array $extra_prunepaths                             = [],
+  Enum['cron','timer'] $cron_method                   = lookup('mlocate::cron_method'),
 ) {
 
   anchor { 'mlocate::begin': }

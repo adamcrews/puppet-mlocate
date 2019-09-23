@@ -73,7 +73,7 @@ class { '::mlocate':
 #### Private Classes
 
 * mlocate::install: install and configure the software.
-* mlocate::cron: setup the cron job.
+* mlocate::cron: setup the cron job or systemd timer.
 
 ### Parameters
 
@@ -99,6 +99,10 @@ Run an initial update when the package is installed.
 The configuration file for updatedb.
 **Default: '/etc/updatedb.conf'**
 
+#### `cron_method`
+Set to 'cron' on RHEL 6 and 7 and to 'timer' on RHEL 8
+**Default: 'timer' (depending on OS version)** 
+
 #### `cron_ensure`
 Ensure the cron jobs is present or absent.
 **Default: 'present'**
@@ -106,6 +110,10 @@ Ensure the cron jobs is present or absent.
 #### `cron_schedule`
 The standard cron time schedule.
 **Default: once a week based on *fqdn_rand* **
+
+#### `timer_schedule`
+The standard timer OnCalendar schedule.
+**Default: once a week **
 
 #### `cron_daily_path`
 The path to cron.daily file installed by mlocate and that is removed.

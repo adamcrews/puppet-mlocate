@@ -3,5 +3,8 @@ fixtures:
     stdlib:
       repo: 'puppetlabs/stdlib'
       ref:  '4.13.1'
+    systemd:
+      repo: 'camptocamp/systemd'
+      ref:  '2.6.0'
   symlinks:
     mlocate: "#{source_dir}"

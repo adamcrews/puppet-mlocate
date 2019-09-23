@@ -44,7 +44,7 @@ describe 'mlocate', :type => :class do
             { update_command: '/tmp/junk',
               update_on_install: false }
           end
-	  it { should contain_file('update_command').with_path('/tmp/junk') }
+	        it { should contain_file('update_command').with_path('/tmp/junk') }
           it { should_not contain_exec('/tmp/junk') }
         end
         context 'with update_command set and update_on_install true' do
@@ -52,8 +52,21 @@ describe 'mlocate', :type => :class do
             { update_command: '/tmp/junk',
               update_on_install: true }
           end
-	  it { should contain_file('update_command').with_path('/tmp/junk') }
+	       it { should contain_file('update_command').with_path('/tmp/junk') }
           it { should contain_exec('/tmp/junk') }
+        end
+        context 'with cron_method set to cron' do
+          let(:params) do
+            { cron_method: 'cron'}
+          end
+          it { should_not contain_class('systemd') }
+        end
+        context 'with cron_method set to timer' do
+          let(:params) do
+            { cron_method: 'timer'}
+          end
+          it { should contain_class('systemd') }
+          it { is_expected.to have_cron_resource_count(0) }
         end
       end
     end

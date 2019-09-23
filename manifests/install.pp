@@ -5,7 +5,7 @@ class mlocate::install (
   Stdlib::Absolutepath $update_command                = $::mlocate::update_command,
   Boolean $deploy_update_command                      = $::mlocate::deploy_update_command,
   Boolean $update_on_install                          = $::mlocate::update_on_install,
-  Stdlib::Absolutepath $cron_daily_path               = $::mlocate::cron_daily_path,
+  Optional[Stdlib::Absolutepath] $cron_daily_path     = $::mlocate::cron_daily_path,
 ) inherits mlocate {
 
   if $caller_module_name != $module_name {
@@ -45,9 +45,11 @@ class mlocate::install (
     }
   }
 
-  file { $cron_daily_path:
-    ensure  => absent,
-    require => Package['mlocate'],
+  if $cron_daily_path {
+    file { $cron_daily_path:
+      ensure  => absent,
+      require => Package['mlocate'],
+    }
   }
 
   if $update_on_install {

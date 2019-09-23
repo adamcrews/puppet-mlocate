@@ -68,3 +68,4 @@ mlocate::prunepaths:
   - '/var/spool/cups'
   - '/var/spool/squid'
   - '/var/tmp'
+mlocate::cron_method: 'timer'
